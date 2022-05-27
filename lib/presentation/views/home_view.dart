@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/domain/entities/pokemon_entity.dart';
-import 'package:pokedex/presentation/pokemon_list_view.dart';
+import 'package:pokedex/presentation/controllers/core_controller.dart';
+import 'package:pokedex/presentation/views/pokemon_list_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
