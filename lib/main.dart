@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/core/ui/scale.dart';
 import 'package:pokedex/presentation/views/home_view.dart';
 
 void main() {
@@ -16,7 +17,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeView(),
+      home: Builder(builder: (BuildContext context) {
+        Scale.init(context);
+        return const HomeView();
+      }),
     );
   }
 }

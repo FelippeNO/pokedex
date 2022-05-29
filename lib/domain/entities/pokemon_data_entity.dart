@@ -3,23 +3,17 @@ import 'package:pokedex/domain/entities/type_entity.dart';
 
 class PokemonDataEntity extends PokemonEntity {
   final String flavorText;
-  final String oficialArtWorkUrl;
-  final List<TypeEntity> types;
 
   PokemonDataEntity(
       {required this.flavorText,
       required final int id,
+      required final String spriteUrl,
       required final String name,
-      required final String url,
-      required final this.types,
-      required final this.oficialArtWorkUrl})
-      : super(
-          id: id,
-          url: url,
-          name: name,
-        );
+      required List<TypeEntity>? types,
+      required final String oficialArtWorkUrl})
+      : super(id: id, name: name, types: types, spriteUrl: spriteUrl, oficialArtWorkUrl: oficialArtWorkUrl);
 
-  static PokemonDataEntity fromJson(Map<String, dynamic> json,
+  static PokemonDataEntity fromJson(json,
       {required PokemonEntity pokemon,
       required String flavorText,
       required String oficialArtWorkUrl,
@@ -27,10 +21,10 @@ class PokemonDataEntity extends PokemonEntity {
     return PokemonDataEntity(
       name: pokemon.name,
       id: pokemon.id,
-      url: pokemon.url,
+      spriteUrl: pokemon.spriteUrl,
       flavorText: flavorText,
       oficialArtWorkUrl: oficialArtWorkUrl,
-      types: types,
+      types: pokemon.types,
     );
   }
 }

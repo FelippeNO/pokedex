@@ -16,7 +16,6 @@ class HomeView extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                CoreController.getPokemonList();
                 return PokemonListView();
               }));
             },
