@@ -4,6 +4,7 @@ import 'package:pokedex/domain/entities/pokemon_entity.dart';
 import 'package:pokedex/domain/entities/type_entity.dart';
 import 'package:pokedex/presentation/controllers/pokemon_list_view_controller.dart';
 import 'package:pokedex/presentation/controllers/favorited_pokemon_list_view_controller.dart';
+import 'package:pokedex/presentation/views/pokemon_data_view.dart';
 import 'package:pokedex/presentation/widgets/pokemon_list_tile.dart';
 
 class PokemonListView extends StatefulWidget {
@@ -20,7 +21,7 @@ class _PokemonListViewState extends State<PokemonListView> {
   void initState() {
     super.initState();
     favoritedsPokemon = FavoritedPokemonListViewController.favoritedPokemonList.value;
-    if (PokemonListViewController.isLoadingList == false) PokemonListViewController.getPokemonList(800);
+    if (PokemonListViewController.isLoadingList == false) PokemonListViewController.getPokemonList(155);
   }
 
   void printPokemon(PokemonEntity pokemon) async {
@@ -46,9 +47,21 @@ class _PokemonListViewState extends State<PokemonListView> {
               return ListView.builder(
                 itemCount: pokemonList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return PokemonListTile(
-                    pokemon: pokemonList[index],
-                    favoritedsPokemon: favoritedsPokemon,
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return PokemonDataView(pokemon: pokemonList[index]);
+                          },
+                        ),
+                      );
+                    },
+                    child: PokemonListTile(
+                      pokemon: pokemonList[index],
+                      favoritedsPokemon: favoritedsPokemon,
+                    ),
                   );
                 },
               );

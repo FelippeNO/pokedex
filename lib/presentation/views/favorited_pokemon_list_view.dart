@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pokedex/core/ui/scale.dart';
 import 'package:pokedex/domain/entities/pokemon_entity.dart';
 import 'package:pokedex/presentation/controllers/favorited_pokemon_list_view_controller.dart';
+import 'package:pokedex/presentation/views/pokemon_data_view.dart';
 
 class FavoritedPokemonListView extends StatefulWidget {
   const FavoritedPokemonListView({Key? key}) : super(key: key);
@@ -33,6 +34,16 @@ class _FavoritedPokemonListViewState extends State<FavoritedPokemonListView> {
               itemCount: favoritedPokemonList.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return PokemonDataView(pokemon: favoritedPokemonList[index]);
+                        },
+                      ),
+                    );
+                  },
                   onLongPress: () => FavoritedPokemonListViewController.unfavoritePokemon(favoritedPokemonList[index]),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

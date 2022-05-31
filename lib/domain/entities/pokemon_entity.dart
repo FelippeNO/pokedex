@@ -8,6 +8,7 @@ class PokemonEntity {
   final String spriteUrl;
   final String oficialArtWorkUrl;
   List<TypeEntity> types = [];
+  final String flavorText;
 
   PokemonEntity({
     required this.name,
@@ -15,17 +16,27 @@ class PokemonEntity {
     required this.types,
     required this.spriteUrl,
     required this.oficialArtWorkUrl,
+    required this.flavorText,
   });
 
-  static PokemonEntity fromJson(Map<String, dynamic> json, {required int id}) {
+  static PokemonEntity fromJson(Map<String, dynamic> json, Map<String, dynamic> json2, {required int id}) {
     List<TypeEntity> getTypes(pokemonData) {
       List<TypeEntity> types = [];
       for (int i = 0; i < pokemonData['types'].length; i++) {
         String pokemonType = pokemonData['types'][i]['type']['name'];
-        var type = TypeEntityMapper.getPokemonTypeFromMap(pokemonType);
+        TypeEntity type = TypeEntityMapper.getPokemonTypeFromMap(pokemonType);
         types.add(type);
       }
       return types;
+    }
+
+    String getEnglishText(data) {
+      for (int i = 0; i <= 10; i++) {
+        if (data['flavor_text_entries'][i]['language']['name'] == "en") {
+          return data['flavor_text_entries'][i]['flavor_text'];
+        }
+      }
+      return 'No English Information Found';
     }
 
     getSpriteFromUrl(int pokemonId) {
@@ -44,6 +55,7 @@ class PokemonEntity {
       types: getTypes(json),
       spriteUrl: getSpriteFromUrl(id),
       oficialArtWorkUrl: getOficialArtWorkFromUrl(id),
+      flavorText: getEnglishText(json2),
     );
   }
 
@@ -52,6 +64,7 @@ class PokemonEntity {
         '"id"': jsonEncode(id),
         '"spriteUrl"': jsonEncode(spriteUrl),
         '"oficialArtWorkUrl"': jsonEncode(oficialArtWorkUrl),
+        '"flavorText"': jsonEncode(flavorText),
         '"types"': jsonEncode(types.map((e) => e.toJson()).toList())
       };
 }
