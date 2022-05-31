@@ -39,6 +39,7 @@ dependencies:
   json_serializable: ^6.2.0
   google_fonts: ^3.0.1
   cached_network_image: ^3.2.0
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

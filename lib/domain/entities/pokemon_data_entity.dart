@@ -9,7 +9,7 @@ class PokemonDataEntity extends PokemonEntity {
       required final int id,
       required final String spriteUrl,
       required final String name,
-      required List<TypeEntity>? types,
+      required List<TypeEntity> types,
       required final String oficialArtWorkUrl})
       : super(id: id, name: name, types: types, spriteUrl: spriteUrl, oficialArtWorkUrl: oficialArtWorkUrl);
 

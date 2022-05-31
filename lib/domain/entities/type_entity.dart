@@ -24,6 +24,13 @@ class TypeEntity {
     this.halfDamageFrom,
     this.doubleDamageFrom,
   });
+
+  Map toJson() => {
+        'name': name,
+        'primaryColor': primaryColor.toString(),
+        'secondaryColor': secondaryColor.toString(),
+        'tertiaryColor': tertiaryColor.toString(),
+      };
 }
 
 class TypeEntityMapper {

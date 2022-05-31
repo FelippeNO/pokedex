@@ -13,19 +13,13 @@ class CoreGateway {
     return 'No English Information Found';
   }
 
-  static String getOficialArtWorkUrl(String pokemonIdString) {
-    const String baseUrl =
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/";
-    return (baseUrl + pokemonIdString + ".png");
-  }
-
   static Future<PokemonEntity> getPokemonData(int id) async {
     final String pokemonIdString = id.toString();
 
     final pokemonDataUri = HttpClientBase("pokemon/" + pokemonIdString).httpClient();
-    http.Response response2 = await http.get(pokemonDataUri);
+    http.Response response = await http.get(pokemonDataUri);
 
-    final pokemonDataJson = json.decode(response2.body);
+    final pokemonDataJson = json.decode(response.body);
 
     return PokemonEntity.fromJson(
       pokemonDataJson,
