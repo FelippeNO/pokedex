@@ -20,8 +20,11 @@ class AppFontSize {
   static double s2 = Scale.width(3.8);
   static double s3 = Scale.width(3.3);
   static double s4 = Scale.width(2.9);
-  static double appBarTitleH1 = Scale.width(6);
-  static double loginPageTitle = Scale.width(10);
+  static double s5 = Scale.width(2.5);
+  static double s6 = Scale.width(2.2);
+
+  static double sh1 = Scale.width(10);
+  static double sh2 = Scale.width(6);
 }
 
 class AppBorderRadius {

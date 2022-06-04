@@ -7,33 +7,38 @@ class PokemonEntity {
   final int id;
   final String spriteUrl;
   final String oficialArtWorkUrl;
-  List<TypeEntity> types = [];
   final String flavorText;
+  final String genus;
+  final String evolutionChainUrl;
+  final TypeEntity type1;
+  final TypeEntity? type2;
 
   PokemonEntity({
     required this.name,
     required this.id,
-    required this.types,
     required this.spriteUrl,
     required this.oficialArtWorkUrl,
     required this.flavorText,
+    required this.genus,
+    required this.evolutionChainUrl,
+    required this.type1,
+    this.type2,
   });
 
   static PokemonEntity fromJson(Map<String, dynamic> json, Map<String, dynamic> json2, {required int id}) {
-    List<TypeEntity> getTypes(pokemonData) {
-      List<TypeEntity> types = [];
-      for (int i = 0; i < pokemonData['types'].length; i++) {
-        String pokemonType = pokemonData['types'][i]['type']['name'];
-        TypeEntity type = TypeEntityMapper.getPokemonTypeFromMap(pokemonType);
-        types.add(type);
-      }
-      return types;
-    }
-
-    String getEnglishText(data) {
+    String getFlavorEnglishText(data) {
       for (int i = 0; i <= 10; i++) {
         if (data['flavor_text_entries'][i]['language']['name'] == "en") {
           return data['flavor_text_entries'][i]['flavor_text'];
+        }
+      }
+      return 'No English Information Found';
+    }
+
+    String getGenusEnglishText(data) {
+      for (int i = 0; i <= 10; i++) {
+        if (data['genera'][i]['language']['name'] == "en") {
+          return data['genera'][i]['genus'];
         }
       }
       return 'No English Information Found';
@@ -52,10 +57,13 @@ class PokemonEntity {
     return PokemonEntity(
       name: json['name'],
       id: id,
-      types: getTypes(json),
       spriteUrl: getSpriteFromUrl(id),
       oficialArtWorkUrl: getOficialArtWorkFromUrl(id),
-      flavorText: getEnglishText(json2),
+      flavorText: getFlavorEnglishText(json2),
+      genus: getGenusEnglishText(json2),
+      evolutionChainUrl: json2['evolution_chain']['url'],
+      type1: TypeEntityMapper.getPokemonTypeFromMap(json['types'][0]['type']['name']),
+      type2: json['types'].length > 1 ? TypeEntityMapper.getPokemonTypeFromMap(json['types'][1]['type']['name']) : null,
     );
   }
 
@@ -65,6 +73,8 @@ class PokemonEntity {
         '"spriteUrl"': jsonEncode(spriteUrl),
         '"oficialArtWorkUrl"': jsonEncode(oficialArtWorkUrl),
         '"flavorText"': jsonEncode(flavorText),
-        '"types"': jsonEncode(types.map((e) => e.toJson()).toList())
+        '"evolutionChainUrl"': json.encode(evolutionChainUrl),
+        '"type1"': json.encode(type1.toJson()),
+        '"type2"': json.encode(type1.toJson()),
       };
 }

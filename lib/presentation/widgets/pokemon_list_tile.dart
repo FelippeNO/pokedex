@@ -3,23 +3,29 @@ import 'package:pokedex/core/ui/scale.dart';
 import 'package:pokedex/core/ui/ui_text.dart';
 import 'package:pokedex/domain/entities/pokemon_entity.dart';
 import 'package:pokedex/domain/entities/type_entity.dart';
+import 'package:pokedex/presentation/controllers/favorited_pokemon_list_view_controller.dart';
 import 'package:pokedex/presentation/widgets/favorite_button.dart';
 import 'package:pokedex/presentation/widgets/primary_type_tag.dart';
 
 class PokemonListTile extends StatelessWidget {
   final PokemonEntity pokemon;
-  final List<PokemonEntity> favoritedsPokemon;
-  const PokemonListTile({Key? key, required this.pokemon, required this.favoritedsPokemon}) : super(key: key);
+  List<PokemonEntity> favoritedsPokemon = FavoritedPokemonListViewController.favoritedPokemonList.value;
+  PokemonListTile({Key? key, required this.pokemon}) : super(key: key);
 
-  List<Color> getGradientColors(List<TypeEntity> types) {
+  List<Color> getGradientColors(TypeEntity type1, TypeEntity? type2) {
     try {
       List<Color> colors = [];
 
-      for (int i = 0; i < types.length; i++) {
-        colors.add(types[i].tertiaryColor);
-        colors.add(types[i].primaryColor);
-        colors.add(types[i].secondaryColor);
+      colors.add(type1.tertiaryColor);
+      colors.add(type1.primaryColor);
+      colors.add(type1.secondaryColor);
+
+      if (type2 != null) {
+        colors.add(type2.tertiaryColor);
+        colors.add(type2.primaryColor);
+        colors.add(type2.secondaryColor);
       }
+
       return colors;
     } catch (e) {
       return [Colors.white, Colors.black];
@@ -35,7 +41,7 @@ class PokemonListTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(
             Scale.width(4),
           ),
-          gradient: LinearGradient(colors: getGradientColors(pokemon.types)),
+          gradient: LinearGradient(colors: getGradientColors(pokemon.type1, pokemon.type2)),
         ),
         height: Scale.width(20),
         child: Row(
@@ -71,11 +77,11 @@ class PokemonListTile extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    PrimaryTypeTag(type: pokemon.types[0]),
-                    pokemon.types.length > 1
+                    PrimaryTypeTag(type: pokemon.type1),
+                    pokemon.type2 != null
                         ? Padding(
                             padding: EdgeInsets.only(left: Scale.width(1)),
-                            child: PrimaryTypeTag(type: pokemon.types[1]),
+                            child: PrimaryTypeTag(type: pokemon.type2),
                           )
                         : Container(),
                   ],

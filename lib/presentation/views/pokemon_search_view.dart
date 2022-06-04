@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/core/ui/scale.dart';
 
@@ -25,7 +26,6 @@ class _PokemonSearchViewState extends State<PokemonSearchView> {
   @override
   void initState() {
     super.initState();
-    PokemonSearchViewController.textEditingController.addListener(() {});
   }
 
   @override
@@ -40,35 +40,35 @@ class _PokemonSearchViewState extends State<PokemonSearchView> {
               height: Scale.width(30),
               child: ValueListenableBuilder<TextEditingController>(
                   valueListenable: PokemonSearchViewController.textEditingController,
-                  builder: (context, text, _) {
+                  builder: (context, controller, _) {
                     return TextFormField(
                       onChanged: (value) {
-                        if (text.value.text.isNotEmpty) {
+                        if (controller.value.text.isNotEmpty) {
                           PokemonSearchViewController.pokemonListSEARCHED.value = [];
                           PokemonSearchViewController.pokemonIds = [];
                           PokemonSearchViewController.isSearchListLoaded = false;
-                          PokemonSearchViewController.getPokemonByName(
-                              PokemonSearchViewController.textEditingController.value);
+
+                          EasyDebounce.debounce("searchPokemon", const Duration(milliseconds: 200),
+                              () => PokemonSearchViewController.getPokemonByName(controller));
                         }
                       },
                       style: TextStyle(color: Colors.white),
-                      controller: text,
+                      controller: controller,
                     );
                   }),
             ),
             ElevatedButton(
-              onPressed: () =>
-                  PokemonSearchViewController.getPokemonByName(PokemonSearchViewController.textEditingController.value),
+              onPressed: () => {},
               child: Text('Search'),
             ),
             Container(
               height: Scale.width(120),
               child: ValueListenableBuilder<List<PokemonEntity>>(
                 valueListenable: PokemonSearchViewController.pokemonListSEARCHED,
-                builder: (context, pokemonList, _) {
+                builder: (context, pokemonSearchList, _) {
                   if (PokemonSearchViewController.isSearchListLoaded == true) {
                     return ListView.builder(
-                      itemCount: textController.value.text.isEmpty ? 0 : pokemonList.length,
+                      itemCount: textController.value.text.isEmpty ? 0 : pokemonSearchList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () {
@@ -76,20 +76,19 @@ class _PokemonSearchViewState extends State<PokemonSearchView> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return PokemonDataView(pokemon: pokemonList[index]);
+                                  return PokemonDataView(pokemon: pokemonSearchList[index]);
                                 },
                               ),
                             );
                           },
                           child: PokemonListTile(
-                            pokemon: pokemonList[index],
-                            favoritedsPokemon: FavoritedPokemonListViewController.favoritedPokemonList.value,
+                            pokemon: pokemonSearchList[index],
                           ),
                         );
                       },
                     );
                   } else {
-                    return const CircularProgressIndicator();
+                    return Center(child: const CircularProgressIndicator());
                   }
                 },
               ),

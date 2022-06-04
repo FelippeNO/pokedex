@@ -21,18 +21,7 @@ class _PokemonListViewState extends State<PokemonListView> {
   void initState() {
     super.initState();
     favoritedsPokemon = FavoritedPokemonListViewController.favoritedPokemonList.value;
-    if (PokemonListViewController.isLoadingList == false) PokemonListViewController.getPokemonList(155);
-  }
-
-  void printPokemon(PokemonEntity pokemon) async {
-    print(pokemon.id);
-    print(pokemon.name);
-    for (TypeEntity type in pokemon.types) {
-      print(type.name);
-      print(type.primaryColor);
-      print(type.secondaryColor);
-      print(type.tertiaryColor);
-    }
+    if (PokemonListViewController.isLoadingList == false) PokemonListViewController.getPokemonList(800);
   }
 
   @override
@@ -60,7 +49,6 @@ class _PokemonListViewState extends State<PokemonListView> {
                     },
                     child: PokemonListTile(
                       pokemon: pokemonList[index],
-                      favoritedsPokemon: favoritedsPokemon,
                     ),
                   );
                 },

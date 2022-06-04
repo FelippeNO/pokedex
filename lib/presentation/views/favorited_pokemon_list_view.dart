@@ -51,7 +51,7 @@ class _FavoritedPokemonListViewState extends State<FavoritedPokemonListView> {
                       height: Scale.width(10),
                       width: Scale.width(10),
                       decoration: BoxDecoration(
-                        color: favoritedPokemonList[index].types[0].tertiaryColor.withOpacity(0.5),
+                        color: favoritedPokemonList[index].type1.tertiaryColor.withOpacity(0.5),
                         borderRadius: BorderRadius.circular(Scale.width(5)),
                       ),
                       child: Center(
