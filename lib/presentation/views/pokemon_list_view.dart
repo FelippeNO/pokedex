@@ -21,7 +21,7 @@ class _PokemonListViewState extends State<PokemonListView> {
   void initState() {
     super.initState();
     favoritedsPokemon = FavoritedPokemonListViewController.favoritedPokemonList.value;
-    if (PokemonListViewController.isLoadingList == false) PokemonListViewController.getPokemonList(800);
+    if (PokemonListViewController.isLoadingList == false) PokemonListViewController.getPokemonList(1000);
   }
 
   @override

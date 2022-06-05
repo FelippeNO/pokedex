@@ -22,7 +22,7 @@ class PokemonSearchViewController extends ChangeNotifier {
     http.Response response = await http.get(pokemon);
     final Map<String, dynamic> pokemonDataJson = json.decode(response.body);
 
-    for (int i = 0; i < 800; i++) {
+    for (int i = 0; i < pokemonDataJson["results"].length; i++) {
       final String pokemonName = pokemonDataJson["results"][i]["name"];
       final String pokemonUrl = pokemonDataJson["results"][i]["url"];
 

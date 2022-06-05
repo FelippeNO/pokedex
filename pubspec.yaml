@@ -42,6 +42,7 @@ dependencies:
   shared_preferences: ^2.0.15
   either_dart: ^0.1.4
   easy_debounce: ^2.0.2+1
+  animations: ^2.0.3
 
 dev_dependencies:
   flutter_test:
@@ -66,9 +67,25 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+  - lib/assets/icons_types/bug_type_icon.png
+  - lib/assets/icons_types/dark_type_icon.png
+  - lib/assets/icons_types/dragon_type_icon.png
+  - lib/assets/icons_types/electric_type_icon.png
+  - lib/assets/icons_types/fairy_type_icon.png
+  - lib/assets/icons_types/fighting_type_icon.png
+  - lib/assets/icons_types/fire_type_icon.png
+  - lib/assets/icons_types/flying_type_icon.png
+  - lib/assets/icons_types/ghost_type_icon.png
+  - lib/assets/icons_types/grass_type_icon.png
+  - lib/assets/icons_types/ground_type_icon.png
+  - lib/assets/icons_types/ice_type_icon.png
+  - lib/assets/icons_types/normal_type_icon.png
+  - lib/assets/icons_types/poison_type_icon.png
+  - lib/assets/icons_types/psychic_type_icon.png
+  - lib/assets/icons_types/rock_type_icon.png
+  - lib/assets/icons_types/steel_type_icon.png
+  - lib/assets/icons_types/water_type_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

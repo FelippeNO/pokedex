@@ -97,52 +97,20 @@ class CoreGateway {
     List<TypeEntity> noDamageFrom = [];
     List<TypeEntity> noDamageTo = [];
 
-    for (int i = 0; i < typeDataJson['damage_relations']['double_damage_from'].length; i++) {
-      if (TypeEntityMapper.typeEntityMapper
-          .containsKey(typeDataJson['damage_relations']['double_damage_from'][i]["name"])) {
-        doubleDamageFrom.add(
-            TypeEntityMapper.getPokemonTypeFromMap(typeDataJson['damage_relations']['double_damage_from'][i]['name']));
+    void _getRelation(String relationType, List<TypeEntity> list) {
+      for (int i = 0; i < typeDataJson['damage_relations'][relationType].length; i++) {
+        if (TypeEntityMapper.typeEntityMapper.containsKey(typeDataJson['damage_relations'][relationType][i]["name"])) {
+          list.add(TypeEntityMapper.getPokemonTypeFromMap(typeDataJson['damage_relations'][relationType][i]['name']));
+        }
       }
     }
 
-    for (int i = 0; i < typeDataJson['damage_relations']['double_damage_to'].length; i++) {
-      if (TypeEntityMapper.typeEntityMapper
-          .containsKey(typeDataJson['damage_relations']['double_damage_to'][i]["name"])) {
-        doubleDamageTo.add(
-            TypeEntityMapper.getPokemonTypeFromMap(typeDataJson['damage_relations']['double_damage_to'][i]['name']));
-      }
-    }
-
-    for (int i = 0; i < typeDataJson['damage_relations']['half_damage_from'].length; i++) {
-      if (TypeEntityMapper.typeEntityMapper
-          .containsKey(typeDataJson['damage_relations']['half_damage_from'][i]["name"])) {
-        halfDamageFrom.add(
-            TypeEntityMapper.getPokemonTypeFromMap(typeDataJson['damage_relations']['half_damage_from'][i]['name']));
-      }
-    }
-
-    for (int i = 0; i < typeDataJson['damage_relations']['half_damage_to'].length; i++) {
-      if (TypeEntityMapper.typeEntityMapper
-          .containsKey(typeDataJson['damage_relations']['half_damage_to'][i]["name"])) {
-        halfDamageTo
-            .add(TypeEntityMapper.getPokemonTypeFromMap(typeDataJson['damage_relations']['half_damage_to'][i]['name']));
-      }
-    }
-
-    for (int i = 0; i < typeDataJson['damage_relations']['no_damage_from'].length; i++) {
-      if (TypeEntityMapper.typeEntityMapper
-          .containsKey(typeDataJson['damage_relations']['no_damage_from'][i]["name"])) {
-        noDamageFrom
-            .add(TypeEntityMapper.getPokemonTypeFromMap(typeDataJson['damage_relations']['no_damage_from'][i]['name']));
-      }
-    }
-
-    for (int i = 0; i < typeDataJson['damage_relations']['no_damage_to'].length; i++) {
-      if (TypeEntityMapper.typeEntityMapper.containsKey(typeDataJson['damage_relations']['no_damage_to'][i]["name"])) {
-        noDamageTo
-            .add(TypeEntityMapper.getPokemonTypeFromMap(typeDataJson['damage_relations']['no_damage_to'][i]['name']));
-      }
-    }
+    _getRelation('double_damage_from', doubleDamageFrom);
+    _getRelation('double_damage_to', doubleDamageTo);
+    _getRelation('half_damage_from', halfDamageFrom);
+    _getRelation('half_damage_to', halfDamageTo);
+    _getRelation('no_damage_from', noDamageFrom);
+    _getRelation('no_damage_to', noDamageTo);
 
     type.doubleDamageFrom = doubleDamageFrom;
     type.doubleDamageTo = doubleDamageTo;
@@ -152,5 +120,26 @@ class CoreGateway {
     type.noDamageTo = noDamageTo;
 
     return type;
+  }
+
+  static Future<List<int>> getPokemonTypeList(TypeEntity type) async {
+    List<int> pokemonTypeIdList = [];
+    String typeName = type.name;
+    String pokemonTypeInformarionUrl = "https://pokeapi.co/api/v2/type/$typeName";
+
+    final typeData = Uri.parse(pokemonTypeInformarionUrl);
+    http.Response response = await http.get(typeData);
+    final Map<String, dynamic> typeDataJson = json.decode(response.body);
+
+    int pokemonTypeAmount = typeDataJson['pokemon'].length;
+
+    for (int i = 0; i < pokemonTypeAmount; i++) {
+      String pokemonUrlToCut = typeDataJson['pokemon'][i]['pokemon']['url'];
+      String pokemonIdString = pokemonUrlToCut.split("pokemon/").last.split("/").first;
+      int pokemonId = int.parse(pokemonIdString);
+      pokemonTypeIdList.add(pokemonId);
+    }
+    print(pokemonTypeIdList);
+    return pokemonTypeIdList;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/core/ui/scale.dart';
 import 'package:pokedex/core/ui/ui_text.dart';
@@ -106,13 +107,15 @@ class _PokemonSpriteBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(Scale.width(3))),
-        height: Scale.width(12),
-        width: Scale.width(12),
-        child: Center(
-            child: Image.network(
-          spriteUrl,
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(Scale.width(3))),
+      height: Scale.width(12),
+      width: Scale.width(12),
+      child: Center(
+        child: CachedNetworkImage(
+          imageUrl: spriteUrl,
           fit: BoxFit.cover,
-        )));
+        ),
+      ),
+    );
   }
 }
