@@ -11,7 +11,7 @@ class PokemonSearchViewController extends ChangeNotifier {
   static bool isSearchListLoaded = true;
 
   static void getPokemonByName(TextEditingController textEditingController) async {
-    if (textEditingController.text.length == 0) {
+    if (textEditingController.text.isEmpty) {
       pokemonListSEARCHED.value = [];
       pokemonIds = [];
       return;

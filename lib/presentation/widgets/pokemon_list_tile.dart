@@ -5,6 +5,7 @@ import 'package:pokedex/core/ui/ui_text.dart';
 import 'package:pokedex/domain/entities/pokemon_entity.dart';
 import 'package:pokedex/domain/entities/type_entity.dart';
 import 'package:pokedex/presentation/controllers/favorited_pokemon_list_view_controller.dart';
+import 'package:pokedex/presentation/views/types_view.dart';
 import 'package:pokedex/presentation/widgets/favorite_button.dart';
 import 'package:pokedex/presentation/widgets/primary_type_tag.dart';
 

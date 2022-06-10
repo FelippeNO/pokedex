@@ -1,5 +1,4 @@
 import 'package:either_dart/either.dart';
-import 'package:flutter/material.dart';
 import 'package:pokedex/core/network/http_client_base.dart';
 import 'package:pokedex/data/exceptions/core_exceptions.dart';
 import 'package:pokedex/domain/entities/evolution_chain_entity.dart';

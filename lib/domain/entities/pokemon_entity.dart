@@ -12,6 +12,8 @@ class PokemonEntity {
   final String evolutionChainUrl;
   final TypeEntity type1;
   final TypeEntity? type2;
+  final String frontAnimationUrl;
+  final String backAnimationUrl;
 
   PokemonEntity({
     required this.name,
@@ -22,10 +24,15 @@ class PokemonEntity {
     required this.genus,
     required this.evolutionChainUrl,
     required this.type1,
+    required this.frontAnimationUrl,
+    required this.backAnimationUrl,
     this.type2,
   });
 
   static PokemonEntity fromJson(Map<String, dynamic> json, Map<String, dynamic> json2, {required int id}) {
+    const FRONTANIMATIONBASEURL = "https://www.pkparaiso.com/imagenes/xy/sprites/animados/";
+    const BACKANIMATIONBASEURL = "https://www.pkparaiso.com/imagenes/xy/sprites/animados-espalda/";
+
     String getFlavorEnglishText(data) {
       for (int i = 0; i <= 10; i++) {
         if (data['flavor_text_entries'][i]['language']['name'] == "en") {
@@ -33,6 +40,10 @@ class PokemonEntity {
         }
       }
       return 'No English Information Found';
+    }
+
+    String getCompletedUrlFromPokemonName(String baseUrl, String pokemonName) {
+      return baseUrl + pokemonName.toLowerCase() + ".gif";
     }
 
     String getGenusEnglishText(data) {
@@ -64,6 +75,8 @@ class PokemonEntity {
       evolutionChainUrl: json2['evolution_chain']['url'],
       type1: TypeEntityMapper.getPokemonTypeFromMap(json['types'][0]['type']['name']),
       type2: json['types'].length > 1 ? TypeEntityMapper.getPokemonTypeFromMap(json['types'][1]['type']['name']) : null,
+      frontAnimationUrl: getCompletedUrlFromPokemonName(FRONTANIMATIONBASEURL, json['name']),
+      backAnimationUrl: getCompletedUrlFromPokemonName(BACKANIMATIONBASEURL, json['name']),
     );
   }
 
@@ -76,5 +89,7 @@ class PokemonEntity {
         '"evolutionChainUrl"': json.encode(evolutionChainUrl),
         '"type1"': json.encode(type1.toJson()),
         '"type2"': json.encode(type1.toJson()),
+        '"frontAnimationUrl"': jsonEncode(frontAnimationUrl),
+        '"backAnimationUrl"': jsonEncode(backAnimationUrl),
       };
 }

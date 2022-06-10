@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/domain/entities/pokemon_entity.dart';
 import 'package:pokedex/presentation/controllers/pokemon_list_view_controller.dart';
 import 'package:pokedex/presentation/views/favorited_pokemon_list_view.dart';
 import 'package:pokedex/presentation/views/pokemon_search_view.dart';
@@ -36,12 +35,12 @@ class _HomeViewState extends State<HomeView> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return PokemonListView();
+                        return const PokemonListView();
                       },
                     ),
                   );
                 },
-                child: Text("pokemon list"),
+                child: const Text("pokemon list"),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -54,7 +53,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   );
                 },
-                child: Text("favorited pokemon list"),
+                child: const Text("favorited pokemon list"),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -62,12 +61,12 @@ class _HomeViewState extends State<HomeView> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return PokemonSearchView();
+                        return const PokemonSearchView();
                       },
                     ),
                   );
                 },
-                child: Text("pokemon search"),
+                child: const Text("pokemon search"),
               )
             ],
           ),

@@ -24,7 +24,7 @@ class TypesTagsBox extends StatelessWidget {
         ),
         Container(
           padding: EdgeInsets.symmetric(vertical: Scale.width(1)),
-          decoration: BoxDecoration(color: Colors.white.withOpacity(0.3), borderRadius: BorderRadius.circular(8)),
+          decoration: BoxDecoration(color: Colors.white.withOpacity(0.3), borderRadius: BorderRadius.circular(17)),
           child: SizedBox(
             width: Scale.width(70),
             child: Padding(

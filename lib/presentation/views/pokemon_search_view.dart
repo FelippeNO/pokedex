@@ -1,13 +1,9 @@
-import 'dart:ui';
 
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/core/ui/scale.dart';
 
 import 'package:pokedex/domain/entities/pokemon_entity.dart';
-import 'package:pokedex/domain/entities/type_entity.dart';
-import 'package:pokedex/presentation/controllers/pokemon_list_view_controller.dart';
-import 'package:pokedex/presentation/controllers/favorited_pokemon_list_view_controller.dart';
 import 'package:pokedex/presentation/controllers/pokemon_search_view_controllers.dart';
 import 'package:pokedex/presentation/views/pokemon_data_view.dart';
 import 'package:pokedex/presentation/widgets/pokemon_list_tile.dart';
@@ -36,7 +32,7 @@ class _PokemonSearchViewState extends State<PokemonSearchView> {
         appBar: AppBar(),
         body: Column(
           children: [
-            Container(
+            SizedBox(
               height: Scale.width(30),
               child: ValueListenableBuilder<TextEditingController>(
                   valueListenable: PokemonSearchViewController.textEditingController,
@@ -52,16 +48,16 @@ class _PokemonSearchViewState extends State<PokemonSearchView> {
                               () => PokemonSearchViewController.getPokemonByName(controller));
                         }
                       },
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                       controller: controller,
                     );
                   }),
             ),
             ElevatedButton(
               onPressed: () => {},
-              child: Text('Search'),
+              child: const Text('Search'),
             ),
-            Container(
+            SizedBox(
               height: Scale.width(120),
               child: ValueListenableBuilder<List<PokemonEntity>>(
                 valueListenable: PokemonSearchViewController.pokemonListSEARCHED,
@@ -88,7 +84,7 @@ class _PokemonSearchViewState extends State<PokemonSearchView> {
                       },
                     );
                   } else {
-                    return Center(child: const CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
                 },
               ),

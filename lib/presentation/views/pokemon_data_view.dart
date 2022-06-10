@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 
 import 'package:pokedex/core/ui/scale.dart';
 import 'package:pokedex/core/ui/ui_text.dart';
-import 'package:pokedex/data/gateways/core_gateway.dart';
-import 'package:pokedex/domain/entities/evolution_chain_entity.dart';
 import 'package:pokedex/domain/entities/pokemon_entity.dart';
-import 'package:pokedex/domain/entities/type_entity.dart';
 import 'package:pokedex/presentation/controllers/pokemon_data_view_controller.dart';
+import 'package:pokedex/presentation/controllers/types_view_controller.dart';
 import 'package:pokedex/presentation/views/types_view.dart';
 import 'package:pokedex/presentation/widgets/evolution_card.dart';
 import 'package:pokedex/presentation/widgets/evolution_cards_row.dart';
@@ -28,6 +26,11 @@ class _PokemonDataViewState extends State<PokemonDataView> {
   void initState() {
     super.initState();
     PokemonDataViewController.initialize(widget.pokemon);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   LinearGradient _getLinearGradient() {
@@ -86,10 +89,18 @@ class _PokemonDataViewState extends State<PokemonDataView> {
                                   borderRadius: BorderRadius.circular(Scale.width(5)),
                                   child: BackdropFilter(
                                     filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                                    child: RoundedDefaultContainer(
-                                        height: Scale.width(30),
-                                        width: Scale.width(30),
-                                        child: Image.network(widget.pokemon.oficialArtWorkUrl)),
+                                    child: GestureDetector(
+                                      onTap: () => showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AnimatedPokemonInformation(pokemon: widget.pokemon);
+                                        },
+                                      ),
+                                      child: RoundedDefaultContainer(
+                                          height: Scale.width(30),
+                                          width: Scale.width(30),
+                                          child: Image.network(widget.pokemon.oficialArtWorkUrl)),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -138,7 +149,6 @@ class _PokemonDataViewState extends State<PokemonDataView> {
                         padding: EdgeInsets.only(top: Scale.width(3), right: Scale.width(2), left: Scale.width(2)),
                         child: RoundedDefaultContainer(
                           width: Scale.width(100),
-                          //  height: Scale.width(25),
                           child: Column(
                             children: [
                               Padding(
@@ -177,22 +187,36 @@ class _PokemonDataViewState extends State<PokemonDataView> {
                       Padding(
                         padding: EdgeInsets.only(top: Scale.width(3), right: Scale.width(2), left: Scale.width(2)),
                         child: RoundedDefaultContainer(
-                          //  height: Scale.width(35),
                           width: Scale.width(100),
-                          child: ListView(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
+                          child: Column(
                             children: [
                               Padding(
-                                padding:
-                                    EdgeInsets.only(top: Scale.width(1), right: Scale.width(2), left: Scale.width(2)),
+                                padding: EdgeInsets.only(top: Scale.width(1)),
                                 child: UIText(
-                                  widget.pokemon.flavorText.replaceAll("\n", " "),
-                                  maxLines: 8,
-                                  textAlign: TextAlign.center,
-                                  fontSize: AppFontSize.s3,
+                                  "About",
+                                  fontSize: AppFontSize.s1,
                                   color: Colors.black,
                                 ),
+                              ),
+                              ListView(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: Scale.width(1),
+                                        right: Scale.width(2),
+                                        left: Scale.width(2),
+                                        bottom: Scale.width(2)),
+                                    child: UIText(
+                                      widget.pokemon.flavorText.replaceAll("\n", " "),
+                                      maxLines: 8,
+                                      textAlign: TextAlign.center,
+                                      fontSize: AppFontSize.s3,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -210,21 +234,35 @@ class _PokemonDataViewState extends State<PokemonDataView> {
                             } else {
                               biggestLength = PokemonDataViewController.evolutionChain.secondaryEvolution!.length;
                             }
-
                             if (isEvolutionChainLoaded == true) {
                               return RoundedDefaultContainer(
                                 width: Scale.width(100),
                                 child: biggestLength > 0
-                                    ? ListView.builder(
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemCount: biggestLength,
-                                        itemBuilder: (BuildContext context, int index) {
-                                          return EvolutionCardsRow(
-                                              pokemon: widget.pokemon,
-                                              evolutionChain: PokemonDataViewController.evolutionChain,
-                                              index: index);
-                                        },
+                                    ? Column(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(top: Scale.width(1)),
+                                            child: UIText(
+                                              "Evolution Chain",
+                                              fontSize: AppFontSize.s1,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(bottom: Scale.width(2)),
+                                            child: ListView.builder(
+                                              physics: const NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemCount: biggestLength,
+                                              itemBuilder: (BuildContext context, int index) {
+                                                return EvolutionCardsRow(
+                                                    pokemon: widget.pokemon,
+                                                    evolutionChain: PokemonDataViewController.evolutionChain,
+                                                    index: index);
+                                              },
+                                            ),
+                                          ),
+                                        ],
                                       )
                                     : Center(
                                         child: EvolutionCard(
@@ -233,7 +271,7 @@ class _PokemonDataViewState extends State<PokemonDataView> {
                                       ),
                               );
                             } else {
-                              return CircularProgressIndicator();
+                              return const CircularProgressIndicator();
                             }
                           },
                         ),
@@ -241,6 +279,107 @@ class _PokemonDataViewState extends State<PokemonDataView> {
                     ],
                   ),
                 ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AnimatedPokemonInformation extends StatefulWidget {
+  PokemonEntity pokemon;
+  AnimatedPokemonInformation({
+    Key? key,
+    required this.pokemon,
+  }) : super(key: key);
+
+  @override
+  State<AnimatedPokemonInformation> createState() => _AnimatedPokemonInformationState();
+}
+
+class _AnimatedPokemonInformationState extends State<AnimatedPokemonInformation> with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        height: Scale.width(80),
+        width: Scale.width(70),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(
+                Scale.width(8),
+              ),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  height: Scale.width(80),
+                  width: Scale.width(70),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(
+                      Scale.width(8),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: Scale.width(4),
+                      left: Scale.width(8),
+                      right: Scale.width(8),
+                      bottom: Scale.width(4),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          height: Scale.width(50),
+                          width: Scale.width(50),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.3),
+                              width: Scale.width(1),
+                            ),
+                            borderRadius: BorderRadius.circular(
+                              Scale.width(8),
+                            ),
+                          ),
+                          child: ValueListenableBuilder<bool>(
+                            valueListenable: PokemonDataViewController.isFrontSelected,
+                            builder: (context, value, _) {
+                              return AnimatedContainer(
+                                duration: const Duration(milliseconds: 300),
+                                child: Image.network(
+                                  value == true ? widget.pokemon.frontAnimationUrl : widget.pokemon.backAnimationUrl,
+                                  scale: 1,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        PrimaryButton(
+                            isBlurred: true,
+                            selectedText: "Swap to Back",
+                            notSelectedText: "Swap to Front",
+                            onTap: () {},
+                            isSelectedController: PokemonDataViewController.isFrontSelected),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           ),

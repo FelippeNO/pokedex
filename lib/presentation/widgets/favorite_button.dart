@@ -18,41 +18,29 @@ class FavoriteButton extends StatelessWidget {
     return ValueListenableBuilder<List<PokemonEntity>>(
       valueListenable: FavoritedPokemonListViewController.favoritedPokemonList,
       builder: (context, favoritedPokemonList, _) {
-        if (!favoritedsPokemon.any((pokemonsss) => pokemonsss.id == pokemon.id)) {
-          return GestureDetector(
-            onTap: () => FavoritedPokemonListViewController.favoritePokemon(pokemon),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(
-                  Scale.width(3),
-                ),
-              ),
-              padding: EdgeInsets.all(Scale.width(2)),
-              height: Scale.width(7),
-              child: Center(
-                child: UIText('favorite', fontSize: AppFontSize.s4),
+        bool dontContain = !favoritedsPokemon.any((pokemonList) => pokemonList.id == pokemon.id);
+        return GestureDetector(
+          onTap: dontContain
+              ? () => FavoritedPokemonListViewController.favoritePokemon(pokemon)
+              : () => FavoritedPokemonListViewController.unfavoritePokemon(pokemon),
+          child: Container(
+            decoration: BoxDecoration(
+              color: dontContain ? Colors.black.withOpacity(0.3) : Colors.white.withOpacity(0.2),
+              border: Border.all(
+                  color: dontContain ? Colors.white.withOpacity(0.3) : Colors.white, width: Scale.width(0.3)),
+              borderRadius: BorderRadius.circular(
+                Scale.width(5),
               ),
             ),
-          );
-        } else {
-          return GestureDetector(
-            onTap: () => FavoritedPokemonListViewController.unfavoritePokemon(pokemon),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(
-                  Scale.width(3),
-                ),
-              ),
-              padding: EdgeInsets.all(Scale.width(2)),
-              height: Scale.width(7),
-              child: Center(
-                child: UIText('unfavorite', fontSize: AppFontSize.s4),
-              ),
+            padding: EdgeInsets.all(Scale.width(2)),
+            height: Scale.width(8),
+            child: Center(
+              child: dontContain
+                  ? UIText('Favorite', fontSize: AppFontSize.s4)
+                  : UIText('Unfavorite', fontSize: AppFontSize.s4),
             ),
-          );
-        }
+          ),
+        );
       },
     );
   }

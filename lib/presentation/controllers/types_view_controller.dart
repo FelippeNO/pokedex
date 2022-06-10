@@ -8,6 +8,7 @@ class TypesViewController extends ChangeNotifier {
   static ValueNotifier<List<int>> typePokemonIds = ValueNotifier([]);
   static ValueNotifier<List<PokemonEntity>> typePokemon = ValueNotifier([]);
   static ValueNotifier<bool> isTypeListPokemonLoaded = ValueNotifier(false);
+  static ValueNotifier<bool> isButtonSelected = ValueNotifier(false);
 
   static void initialize(TypeEntity type) async {
     isTypeInformationLoaded.value = false;

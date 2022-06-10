@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:pokedex/domain/entities/pokemon_entity.dart';
-import 'package:pokedex/domain/entities/type_entity.dart';
 import 'package:pokedex/presentation/controllers/pokemon_list_view_controller.dart';
 import 'package:pokedex/presentation/controllers/favorited_pokemon_list_view_controller.dart';
 import 'package:pokedex/presentation/views/pokemon_data_view.dart';
