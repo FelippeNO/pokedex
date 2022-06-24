@@ -10,6 +10,20 @@ English(EUA)------
 Mobile app design. The proposal is to be a Pokedex (Pokemon agenda).
 The aim of the project is to demonstrate more complex skills in Flutter. UI/UX, API Request, use of Packages, Clean Code and implementation of some services such as: Search by name of any pokemon.
 
+SOME IMAGES -----
+<div>
+  <img src="https://raw.githubusercontent.com/FelippeNO/pokedex/master/images_md/pokemon_list.png" height="350" title="Pokemon List">
+  <img src="https://raw.githubusercontent.com/FelippeNO/pokedex/master/images_md/favoriteds_pokemon_grid_view.png" height="350" title="Favoriteds Pokemon Grid View">
+  <img src="https://raw.githubusercontent.com/FelippeNO/pokedex/master/images_md/search_pokemon_by_name.png" height="350" title="Search Pokemon By Name">
+  <img src="https://raw.githubusercontent.com/FelippeNO/pokedex/master/images_md/pokemon_data_view.png" height="350" title="Pokemon Data View">
+  <img src="https://raw.githubusercontent.com/FelippeNO/pokedex/master/images_md/pokemon_animated_container_front.png" height="350" title="Pokemon Animated Container Front">
+  <img src="https://raw.githubusercontent.com/FelippeNO/pokedex/master/images_md/pokemon_animated_container_back.png" height="350" title="Pokemon Animated Container Back">
+  <img src="https://raw.githubusercontent.com/FelippeNO/pokedex/master/images_md/type_view.png" height="350" title="Type View">
+  <img src="https://raw.githubusercontent.com/FelippeNO/pokedex/master/images_md/pokemon_type_list.png" height="350" title="Pokemon Type List">
+  </div>
+
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
